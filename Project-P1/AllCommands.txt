@@ -1,0 +1,16 @@
+1.Creating the Bucket
+==> gsutil mb gs://sai-bucket12/
+2.Upload BankTransactions folder
+==> gsutil -m cp -r C:\Users\ADMIN\Downloads\BankTransactions gs://sai-bucket12/
+3.Creating the instance
+==> gcloud sql instances create mysql-instance --database-version=MYSQL_8_0 --tier=db-f1-micro --region=us-central1
+4.Creating the Database
+==> gcloud sql databases create Bank --instance=mysql-instance
+5.Creating the User Account
+==> gcloud sql users create mark --host=% --instance=mysql-instance --password=12345
+6.Creating the Cluster in Dataproc
+==> gcloud dataproc clusters create kiran-cluster --region=us-central1 --zone=us-central1-c --single-node --master-machine-type=n1-standard-2 --image-version=2.0-debian10
+7.Uploading the Python file in Bucket
+==> gsutil cp C:\Users\ADMIN\Downloads\generate_transaction_data.py gs://sai-bucket12/scripts/
+8.Submitting job
+==> gcloud dataproc jobs submit pyspark gs://sai-bucket12/scripts --cluster=kiran-cluster --region=us-central1
